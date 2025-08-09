@@ -84,4 +84,23 @@ RSpec.describe "Courses API", type: :request do
       expect(body["error"]).to be_present
     end
   end
+
+  describe "DELETE /lsm/api/v1/courses/:id" do
+    let(:course_id) do
+      create_course!(title: initial_title, description: initial_description)[:aggregate_id]
+    end
+
+    it "deletes a course and returns 204" do
+      delete "/lsm/api/v1/courses/#{course_id}"
+      expect(response).to have_http_status(:no_content)
+      expect(response.body).to be_empty
+    end
+
+    it "marks aggregate as deleted" do
+      delete "/lsm/api/v1/courses/#{course_id}"
+      aggregate = Sequent.aggregate_repository.load_aggregate(course_id, Course::Course)
+      expect(aggregate).not_to be_nil
+      expect(aggregate.deleted?).to be true
+    end
+  end
 end

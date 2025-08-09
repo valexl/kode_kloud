@@ -17,5 +17,11 @@ module Course
         course.change_description(command)
       end
     end    
+
+    on Commands::DeleteCourse do |command|
+      do_with_aggregate(command, Course) do |course|
+        course.delete
+      end
+    end
   end
 end

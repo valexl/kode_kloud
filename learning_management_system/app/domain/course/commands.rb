@@ -15,5 +15,7 @@ module Course
       attrs description: String
       validates :description, presence: true
     end
+
+    class DeleteCourse < Sequent::Command; end
   end
 end

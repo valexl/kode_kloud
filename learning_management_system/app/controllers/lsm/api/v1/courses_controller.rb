@@ -21,6 +21,11 @@ module Lsm
           render json: Courses::CourseSerializer.call(course), status: :ok
         end
 
+        def destroy
+          Courses::DeleteCourse.call(params[:id])
+          head :no_content
+        end
+
         private
 
         def course_params
