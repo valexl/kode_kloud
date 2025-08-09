@@ -20,6 +20,6 @@ RSpec.describe Course::CourseCommandHandler, type: :command_handler do
       description: "Basic math course"
     )
 
-    then_events Course::Events::CourseAdded, Course::Events::CourseTitleChanged, Course::Events::CourseDescriptionChanged
+    then_events Course::Events::CourseAdded
   end
 end

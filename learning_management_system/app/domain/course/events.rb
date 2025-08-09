@@ -1,6 +1,8 @@
 module Course
   module Events
-    class CourseAdded < Sequent::Event; end
+    class CourseAdded < Sequent::Event
+      attrs title: String, description: String
+    end
     class CourseDeleted < Sequent::Event; end
 
     class CourseTitleChanged < Sequent::Event

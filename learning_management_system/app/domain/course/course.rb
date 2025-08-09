@@ -3,9 +3,7 @@ module Course
 
     def initialize(command)
       super(command.aggregate_id)
-      apply Events::CourseAdded
-      apply Events::CourseTitleChanged, title: command.title
-      apply Events::CourseDescriptionChanged, description: command.description
+      apply Events::CourseAdded, title: command.title, description: command.description
     end
 
     def deleted?
@@ -29,7 +27,9 @@ module Course
       apply Events::CourseDeleted
     end
 
-    on Events::CourseAdded do |_|
+    on Events::CourseAdded do |event|
+      @title = event.title
+      @description = event.description
     end
 
     on Events::CourseTitleChanged do |event|

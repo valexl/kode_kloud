@@ -33,6 +33,17 @@ RSpec.describe "Courses API", type: :request do
       expect(aggregate.instance_variable_get(:@description)).to eq(initial_description)
     end
 
+    it "creates a CourseRecord via projector" do
+      payload = { course: { title: initial_title, description: initial_description } }
+
+      post "/lsm/api/v1/courses", params: payload, as: :json
+
+      course_record = CourseRecord.find_by(aggregate_id: uuid)
+      expect(course_record).to be_present
+      expect(course_record.title).to eq(initial_title)
+      expect(course_record.description).to eq(initial_description)
+    end
+
     it "returns 422 on invalid input" do
       payload = { course: { title: "", description: "" } }
 
@@ -74,6 +85,17 @@ RSpec.describe "Courses API", type: :request do
       expect(aggregate.instance_variable_get(:@description)).to eq(updated_description)
     end
 
+    it "updates the CourseRecord via projector" do
+      update_payload = { course: { title: updated_title, description: updated_description } }
+
+      put "/lsm/api/v1/courses/#{course_id}", params: update_payload, as: :json
+
+      course_record = CourseRecord.find_by(aggregate_id: uuid)
+      expect(course_record).to be_present
+      expect(course_record.title).to eq(updated_title)
+      expect(course_record.description).to eq(updated_description)
+    end
+
     it "returns 422 on invalid input" do
       update_payload = { course: { title: "", description: "" } }
 
@@ -94,6 +116,8 @@ RSpec.describe "Courses API", type: :request do
       delete "/lsm/api/v1/courses/#{course_id}"
       expect(response).to have_http_status(:no_content)
       expect(response.body).to be_empty
+      
+      expect(CourseRecord.where(aggregate_id: course_id).empty?).to eq(true)
     end
 
     it "marks aggregate as deleted" do

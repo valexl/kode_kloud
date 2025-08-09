@@ -29,7 +29,8 @@ Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
 begin
-  ActiveRecord::Migration.maintain_test_schema!
+  # ActiveRecord::Migration.maintain_test_schema!
+  Sequent::Test::DatabaseHelpers.maintain_test_database_schema(env: "test")
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
