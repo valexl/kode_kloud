@@ -5,5 +5,15 @@ module Course
       validates :title, presence: true
       validates :description, presence: true
     end
+
+    class ChangeCourseTitle < Sequent::Command
+      attrs title: String
+      validates :title, presence: true
+    end
+
+    class ChangeCourseDescription < Sequent::Command
+      attrs description: String
+      validates :description, presence: true
+    end
   end
 end

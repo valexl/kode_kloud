@@ -71,6 +71,7 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include Sequent::Test::CommandHandlerHelpers
+  config.include SequentHelpers::FactoryHelpers
 
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!

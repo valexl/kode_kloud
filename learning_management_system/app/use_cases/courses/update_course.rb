@@ -1,15 +1,15 @@
 module Courses
-  class CreateCourse
+  class UpdateCourse
 
     attr_reader :title, :description, :aggregate_id
-    def initialize(title:, description:)
+    def initialize(aggregate_id:, title:, description:)
       @title = title
       @description = description
-      @aggregate_id = Sequent.new_uuid
+      @aggregate_id = aggregate_id
     end
 
-    def self.call(title:, description:)
-      new(title:, description:).call
+    def self.call(aggregate_id:, title:, description:)
+      new(aggregate_id:, title:, description:).call
     end
 
     def call
@@ -22,11 +22,14 @@ module Courses
 
     def commands
       [
-        Course::Commands::AddCourse.new(
+        Course::Commands::ChangeCourseTitle.new(
           aggregate_id: aggregate_id,
-          title: title,
+          title: title
+        ),
+        Course::Commands::ChangeCourseDescription.new(
+          aggregate_id: aggregate_id,
           description: description
-        )
+        ),
       ]
     end
 

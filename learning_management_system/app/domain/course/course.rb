@@ -7,6 +7,18 @@ module Course
       apply Events::CourseDescriptionChanged, description: command.description
     end
 
+    def change_title(command)
+      return if @title == command.title
+
+      apply Events::CourseTitleChanged, title: command.title
+    end
+
+    def change_description(command)
+      return if @description == command.description
+
+      apply Events::CourseDescriptionChanged, description: command.description
+    end
+
     on Events::CourseAdded do |_|
     end
 
