@@ -38,5 +38,11 @@ module LearningManagementSystem
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.active_record.schema_format = :sql
+    config.active_record.dump_schemas = nil
+    ActiveRecord::Tasks::DatabaseTasks.structure_dump_flags = "--exclude-schema=#{Sequent.configuration.view_schema_name}"
+
+    config.middleware.use Sequent::Util::Web::ClearCache
   end
 end
