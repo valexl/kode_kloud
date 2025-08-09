@@ -2,6 +2,13 @@ module Lsm
   module Api
     module V1
       class CoursesController < BaseController
+
+        def index
+          courses = Courses::ListAvailable.call
+
+          render json: Courses::CoursesSerializer.call(courses), status: :ok
+        end
+
         def create
           course = Courses::CreateCourse.call(
             title: course_params[:title],

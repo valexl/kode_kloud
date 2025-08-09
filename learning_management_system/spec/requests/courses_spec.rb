@@ -127,4 +127,31 @@ RSpec.describe "Courses API", type: :request do
       expect(aggregate.deleted?).to be true
     end
   end
+
+  describe "GET /lsm/api/v1/courses" do
+    let!(:course1) { create_course!(aggregate_id: course_id1, title: "Math 101", description: "Basic") }
+    let!(:course2) { create_course!(aggregate_id: course_id2, title: "Physics 101", description: "Intro") }
+    let(:course_id1) { SecureRandom.uuid }
+    let(:course_id2) { SecureRandom.uuid }
+
+    it "returns list of courses" do
+      get "/lsm/api/v1/courses", as: :json
+
+      expect(response).to have_http_status(:ok)
+      body = JSON.parse(response.body)
+
+      expect(body).to eq([
+        {
+          "id" => course1[:aggregate_id],
+          "title" => "Math 101",
+          "description" => "Basic"
+        },
+        {
+          "id" => course2[:aggregate_id],
+          "title" => "Physics 101",
+          "description" => "Intro"
+        }
+      ])
+    end
+  end
 end

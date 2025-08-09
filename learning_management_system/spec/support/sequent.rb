@@ -25,8 +25,8 @@ end
 
 module SequentHelpers
   module FactoryHelpers
-    def create_course!(title: "Math 101", description: "Basic math course")
-      aggregate_id = Sequent.new_uuid
+    def create_course!(aggregate_id: nil, title: "Math 101", description: "Basic math course")
+      aggregate_id ||= Sequent.new_uuid
       Sequent.command_service.execute_commands(
         Course::Commands::AddCourse.new(aggregate_id:, title:, description:)
       )
