@@ -1,4 +1,3 @@
-# app/serializers/courses/course_serializer.rb
 module Courses
   class CourseSerializer
     def self.call(course)

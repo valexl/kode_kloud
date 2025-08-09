@@ -154,4 +154,30 @@ RSpec.describe "Courses API", type: :request do
       ])
     end
   end
+
+  describe "GET /lsm/api/v1/courses/:id" do
+    let(:course_id) { SecureRandom.uuid }
+    let!(:course) { create_course!(aggregate_id: course_id, title: "Math 101", description: "Basic") }
+
+    it "returns the course" do
+      get "/lsm/api/v1/courses/#{course_id}", as: :json
+
+      expect(response).to have_http_status(:ok)
+      body = JSON.parse(response.body)
+
+      expect(body).to eq(
+        "id" => course_id,
+        "title" => "Math 101",
+        "description" => "Basic"
+      )
+    end
+
+    it "returns 404 if course does not exist" do
+      get "/lsm/api/v1/courses/#{SecureRandom.uuid}", as: :json
+
+      expect(response).to have_http_status(:not_found)
+      body = JSON.parse(response.body)
+      expect(body["error"]).to be_present
+    end
+  end
 end

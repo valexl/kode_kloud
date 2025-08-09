@@ -9,6 +9,12 @@ module Lsm
           render json: Courses::CoursesSerializer.call(courses), status: :ok
         end
 
+        def show
+          course = Courses::FetchCourse.call(params[:id])
+
+          render json: Courses::CourseSerializer.call(course), status: :ok
+        end
+
         def create
           course = Courses::CreateCourse.call(
             title: course_params[:title],
