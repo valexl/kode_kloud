@@ -56,3 +56,6 @@ build-iPhoneSimulator/
 # .rubocop-https?--*
 
 .DS_Store
+
+learning_management_system/tmp/
+course_recommendation_system/tmp/
