@@ -37,5 +37,19 @@ module SequentHelpers
         description:
       )
     end
+    
+    def create_lesson!(aggregate_id: nil, title: "Lesson 1", description: "Basic", course_id:)
+      aggregate_id ||= Sequent.new_uuid
+      Sequent.command_service.execute_commands(
+        Lesson::Commands::AddLesson.new(aggregate_id:, title:, description:, course_id:)
+      )
+
+      OpenStruct.new(
+        aggregate_id:,
+        title:,
+        description:,
+        course_id:
+      )
+    end
   end
 end
