@@ -22,8 +22,28 @@ RSpec.configure do |config|
   end
 end
 
-
 module SequentHelpers
   module FactoryHelpers
+    def create_course!(aggregate_id: nil, title: "Math 101", description: "Basic math course")
+      aggregate_id ||= Sequent.new_uuid
+      Sequent.command_service.execute_commands(
+        Course::Commands::AddCourse.new(aggregate_id:, title:, description:)
+      )
+      aggregate_id
+    end
+
+    def course_progress_aggregate_id(user_id, course_id)
+      (user_id.split("-")[0..1] + course_id.split("-")[2..-1]).join("-")
+    end
+
+    def start_course_for_user!(user_id:, course_id:)
+      Sequent.command_service.execute_commands(
+        Progress::Commands::StartCourse.new(
+          aggregate_id: course_progress_aggregate_id(user_id, course_id),
+          user_id: user_id,
+          course_id: course_id
+        )
+      )
+    end    
   end
 end

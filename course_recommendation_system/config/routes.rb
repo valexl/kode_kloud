@@ -11,4 +11,12 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  namespace :crs do
+    namespace :api do
+      namespace :v1 do
+        post "lms-events", to: "lms_events#create"
+      end
+    end
+  end
 end
