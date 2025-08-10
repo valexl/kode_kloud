@@ -15,6 +15,7 @@ Rails.application.routes.draw do
         resources :lessons, only: [:index, :show, :create, :update, :destroy]
         post "courses/:course_id/lessons/:id/start",    to: "lessons_progress#start"
         post "courses/:course_id/lessons/:id/complete", to: "lessons_progress#complete"
+        get "users/:id/stats", to: "users_stats#show"
       end
     end
   end  
