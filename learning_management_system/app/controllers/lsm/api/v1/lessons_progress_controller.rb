@@ -1,7 +1,7 @@
 module Lsm
   module Api
     module V1
-      class LessonsProgressController < ApplicationController
+      class LessonsProgressController < BaseController
         def start
           lesson_progress = Progresses::StartLesson.call(
             lesson_id: params[:id],

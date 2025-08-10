@@ -1,0 +1,2 @@
+CREATE DATABASE learning_management_system_development OWNER app;
+CREATE DATABASE course_recommendation_system_development OWNER app;

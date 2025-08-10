@@ -1,23 +1,21 @@
 default: &default
   adapter: postgresql
-  host: localhost
-  port: 5432
-  username: <%= ENV["POSTGRES_USER"] %>
-  password: <%= ENV["POSTGRES_PASSWORD"] %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  encoding: unicode
+  pool: 10
+  username: <%= ENV.fetch("DB_USER", "app") %>
+  password: <%= ENV.fetch("DB_PASSWORD", "app") %>
+  host: <%= ENV.fetch("DB_HOST", "127.0.0.1") %>
+  port: <%= ENV.fetch("DB_PORT", "5432") %>
   schema_search_path: <%= ENV.fetch("SEQUENT_MIGRATION_SCHEMAS") { "public, view_schema, sequent_schema" } %>
 
 development:
   <<: *default
-  database: course_recommendation_system_development
+  database: <%= ENV.fetch("DB_NAME", "crs_development") %>
 
 test:
   <<: *default
-  database: course_recommendation_system_test
+  database: crs_test
 
 production:
   <<: *default
-  database: course_recommendation_system_production
-  username: course_recommendation_system
-  password: <%= ENV["COURSE_RECOMMENDATION_SYSTEM_DATABASE_PASSWORD"] %>
+  database: <%= ENV.fetch("DB_NAME", "crs_production") %>

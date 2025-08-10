@@ -1,0 +1,60 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/00-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  lms:
+    build:
+      context: ./learning_management_system
+      dockerfile: Dockerfile
+    environment:
+      RAILS_ENV: development
+      DB_HOST: db
+      DB_PORT: "5432"
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      CRS_BASE_URL: http://crs:3000
+      SEQUENT_MIGRATION_SCHEMAS: public, view_schema, sequent_schema
+      INTEGRATION_EVENTS_URL: http://crs:3000/crs/api/v1/lms-events
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./learning_management_system:/app
+
+  crs:
+    build:
+      context: ./course_recommendation_system
+      dockerfile: Dockerfile
+    environment:
+      RAILS_ENV: development
+      DB_HOST: db
+      DB_PORT: "5432"
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      LMS_BASE_URL: http://lms:3000
+      SEQUENT_MIGRATION_SCHEMAS: public, view_schema, sequent_schema
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./course_recommendation_system:/app
+
+volumes:
+  pgdata:
