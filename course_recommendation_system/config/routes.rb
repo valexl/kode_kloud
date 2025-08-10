@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     namespace :api do
       namespace :v1 do
         post "lms-events", to: "lms_events#create"
+        get "users/:id/next-course", to: "next_course#show"
       end
     end
   end

@@ -44,6 +44,16 @@ module SequentHelpers
           course_id: course_id
         )
       )
+    end
+
+    def complete_course_for_user!(user_id:, course_id:)
+      Sequent.command_service.execute_commands(
+        Progress::Commands::CompleteCourse.new(
+          aggregate_id: course_progress_aggregate_id(user_id, course_id),
+          user_id: user_id,
+          course_id: course_id
+        )
+      )
     end    
   end
 end
