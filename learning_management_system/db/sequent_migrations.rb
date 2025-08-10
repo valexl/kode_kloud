@@ -9,6 +9,9 @@ class SequentMigrations < Sequent::Migrations::Projectors
     {
       '1' => [
         CourseProjector,
+        LessonProjector,
+        CourseProgressProjector,
+        LessonProgressProjector
       ],
     }
   end
