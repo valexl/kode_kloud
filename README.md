@@ -1,20 +1,39 @@
-# Solution Design Documentation
+# LMS + CRS Monorepo
 
-The solution was designed in four phases:
+## TL;DR
 
-1. **Event Storming** – designed the workflow.  
-   ![Phase 1 - discovery](docs/Phase%201%20-%20discovery.jpg)
+```bash
+docker compose up -d
+```
 
-2. **Event Modeling** – explored potential flow of communication between user and services.  
-   ![Phase 2 - event modeling](docs/Phase%202%20-%20event%20modeling.jpg)
+## Services
 
-3. **Aggregates Design** – defined aggregates for the CQRS solution. 
-   ![Phase 3 - design aggregates ](docs/Phase%203%20-%20design%20aggregates.jpg)
+* LMS Service: [http://localhost:3001/lsm/api/v1](http://localhost:3001/lsm/api/v1)
+* Course Recommendation Service: [http://localhost:3002/crs/api/v1](http://localhost:3002/crs/api/v1)
 
-4. **Use Case & Sequence Diagrams** – identified potential use cases and service layers.  
-   ![Phase 4 - Define use-cases](docs/Phase%204%20-%20Define%20use-cases.jpg)
+## Seed Data
 
----
+After starting the services, you can populate them with example data:
 
-📌 All diagrams are stored in the [`docs/`](docs) folder.  
-🔗 [Miro Board Link](https://miro.com/app/board/uXjVJVpCpko=/?share_link_id=480452480824)
+```bash
+bash script/seed.sh
+```
+
+## Tests
+
+```bash
+make lms-test
+make crs-test
+```
+
+## Consoles
+
+```bash
+make lms-console
+make crs-console
+```
+
+## Docs
+
+* Architecture and design: [docs/architecture.md](docs/architecture.md)
+* API usage and cURL examples: [docs/curl-examples.md](docs/curl-examples.md)
