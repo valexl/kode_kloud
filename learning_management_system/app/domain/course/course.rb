@@ -1,6 +1,7 @@
 module Course
    class Course < Sequent::AggregateRoot
 
+    attr_reader :title, :description, :deleted
     def initialize(command)
       super(command.aggregate_id)
       apply Events::CourseAdded, title: command.title, description: command.description

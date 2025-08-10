@@ -1,6 +1,11 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
+require "webmock/rspec"
+
+WebMock.disable_net_connect!(allow_localhost: true)
+ENV["INTEGRATION_EVENTS_URL"] ||= "http://integration-sink.test/api/v1/lms-events"
+
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?

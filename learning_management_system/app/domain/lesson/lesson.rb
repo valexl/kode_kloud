@@ -1,6 +1,7 @@
 module Lesson
    class Lesson < Sequent::AggregateRoot
-
+    
+    attr_reader :course_id, :title, :description, :deleted
     def initialize(command)
       super(command.aggregate_id)
       apply Events::LessonAdded, 

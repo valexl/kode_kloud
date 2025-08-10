@@ -33,9 +33,9 @@ RSpec.describe "Lessons API", type: :request do
       post "/lsm/api/v1/lessons", params: payload, as: :json
 
       aggregate = Sequent.aggregate_repository.load_aggregate(lesson_id, Lesson::Lesson)
-      expect(aggregate.instance_variable_get(:@title)).to eq(initial_title)
-      expect(aggregate.instance_variable_get(:@description)).to eq(initial_description)
-      expect(aggregate.instance_variable_get(:@course_id)).to eq(course_id)
+      expect(aggregate.title).to eq(initial_title)
+      expect(aggregate.description).to eq(initial_description)
+      expect(aggregate.course_id).to eq(course_id)
     end
 
     it "creates a LessonRecord via projector" do
@@ -92,8 +92,8 @@ RSpec.describe "Lessons API", type: :request do
       put "/lsm/api/v1/lessons/#{existing_lesson_id}", params: update_payload, as: :json
 
       aggregate = Sequent.aggregate_repository.load_aggregate(existing_lesson_id, Lesson::Lesson)
-      expect(aggregate.instance_variable_get(:@title)).to eq(updated_title)
-      expect(aggregate.instance_variable_get(:@description)).to eq(updated_description)
+      expect(aggregate.title).to eq(updated_title)
+      expect(aggregate.description).to eq(updated_description)
     end
 
     it "updates the LessonRecord via projector" do
