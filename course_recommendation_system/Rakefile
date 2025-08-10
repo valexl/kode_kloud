@@ -4,3 +4,17 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
+
+# Sequent requires a `SEQUENT_ENV` environment to be set
+# next to a `RAILS_ENV`
+ENV['SEQUENT_ENV'] = ENV['RAILS_ENV'] ||= 'development'
+
+require 'sequent/rake/migration_tasks'
+
+Sequent::Rake::MigrationTasks.new.register_tasks!
+
+# The dependency of sequent:init on :environment ensures the Rails app is loaded
+# when running the sequent migrations. This is needed otherwise
+# the sequent initializer - which is required to run these rake tasks -
+# doesn't run
+task 'sequent:init' => [:environment]
